@@ -16,7 +16,10 @@ import com.nhnacademy.aiot.setting.Setting;
  */
 public class SettingParser {
     private static final String DEFAULT_APPLICATION_NAME = "#/";
-    private static final JSONArray DEFAULT_SENSOR_TYPE = new JSONArray().put("temperature");
+    private static final String DEFAULT_SENSOR_TYPE = "temperature";
+    private static final String APPLICATION_NAME_OPTION = "an";
+    private static final String SENSOR_TYPE_OPTION = "s";
+    private static final String CONFIGURATION_OPTION = "c";
 
     private SettingParser() {
     }
@@ -34,20 +37,21 @@ public class SettingParser {
         CommandLineParser parser = new DefaultParser();
         CommandLine commandLine;
 
-        options.addOption(null, "an", true, "Application Name");
+        options.addOption(null, APPLICATION_NAME_OPTION, true, "Application Name");
         options.addOption("s", null, true, "Sensor Type");
         options.addOption("c", null, true, "Setting json file");
 
         try {
             commandLine = parser.parse(options, args);
 
-            if (commandLine.hasOption("an")) {
-                setting.put("an", commandLine.getOptionValue("an"));
+            if (commandLine.hasOption(APPLICATION_NAME_OPTION)) {
+                setting.put(APPLICATION_NAME_OPTION, commandLine.getOptionValue(APPLICATION_NAME_OPTION));
             }
-            if (commandLine.hasOption("s")) {
-                setting.put("s", new JSONArray(commandLine.getOptionValue("s").split(",")));
+            if (commandLine.hasOption(SENSOR_TYPE_OPTION)) {
+                setting.put(SENSOR_TYPE_OPTION,
+                        new JSONArray(commandLine.getOptionValue(SENSOR_TYPE_OPTION).split(",")));
             }
-            if (setting.isNull("an") || setting.isNull("s")) {
+            if (setting.isNull(APPLICATION_NAME_OPTION) || setting.isNull(SENSOR_TYPE_OPTION)) {
                 fillNull(setting, commandLine);
             }
         } catch (ParseException e) {
@@ -65,22 +69,23 @@ public class SettingParser {
      */
     private static void fillNull(Setting setting, CommandLine commandLine) {
         // 설정 파일이 있을 때
-        if (commandLine.hasOption("c")) {
-            JSONObject settingJSON = JSONFileReader.read(commandLine.getOptionValue("c"));
-            if (setting.isNull("an")) {
-                setting.put("an", settingJSON.getString("an"));
+        if (commandLine.hasOption(CONFIGURATION_OPTION)) {
+            JSONObject settingJSON = JSONFileReader.read(commandLine.getOptionValue(CONFIGURATION_OPTION));
+            if (setting.isNull(APPLICATION_NAME_OPTION)) {
+                setting.put(APPLICATION_NAME_OPTION, settingJSON.getString(APPLICATION_NAME_OPTION));
             }
-            if (setting.isNull("s")) {
-                setting.put("s", settingJSON.getJSONArray("s"));
+            if (setting.isNull(SENSOR_TYPE_OPTION)) {
+                setting.put(SENSOR_TYPE_OPTION, settingJSON.getJSONArray(SENSOR_TYPE_OPTION));
             }
-        // 설정 파일이 없을 때 (기본값으로 설정)
-        } else {
-            if (setting.isNull("an")) {
-                setting.put("an", DEFAULT_APPLICATION_NAME);
-            }
-            if (setting.isNull("s")) {
-                setting.put("s", DEFAULT_SENSOR_TYPE);
-            }
+            return;
         }
+        // 설정 파일이 없을 때 (기본값으로 설정)
+        if (setting.isNull(APPLICATION_NAME_OPTION)) {
+            setting.put(APPLICATION_NAME_OPTION, DEFAULT_APPLICATION_NAME);
+        }
+        if (setting.isNull(SENSOR_TYPE_OPTION)) {
+            setting.put(SENSOR_TYPE_OPTION, new JSONArray().put(DEFAULT_SENSOR_TYPE));
+        }
+
     }
 }
