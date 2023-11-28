@@ -1,6 +1,9 @@
 package com.nhnacademy.aiot.setting;
 
-public interface Setting {
+import org.json.JSONObject;
 
-    // Type interface
+public class Setting extends JSONObject {
+    public Setting() {
+        super();
+    }
 }
