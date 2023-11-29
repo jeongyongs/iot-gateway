@@ -1,5 +1,6 @@
 package com.nhnacademy.aiot.pipe;
 
+import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -29,10 +30,18 @@ public class Pipe {
     /**
      * pipe에서 packet을 꺼냅니다.
      * 
-     * @return pipe에 packet이 있다면 packet, pipe가 비어있다면 null
+     * @return pipe에서 정상적으로 메세지를 꺼냈다면 value가 packet인 optional, 아니면 value가 null인
+     *         optional
+     * @throws InterruptedException
      */
-    public Packet take() {
-        return queue.poll();
+    public Optional<Packet> take() {
+        Packet packet = null;
+        try {
+            packet = queue.take();
+        } catch (InterruptedException ignore) {
+            Thread.currentThread().interrupt();
+        }
+        return Optional.ofNullable(packet);
     }
 
     /**
