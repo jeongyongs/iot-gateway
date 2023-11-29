@@ -1,6 +1,12 @@
 package com.nhnacademy.aiot.port;
 
-public interface Port extends Iterable<Pipe> {
+import java.util.Optional;
+
+public interface Port {
 
     void add(Pipe pipe);
+
+    boolean put(Packet packet);
+
+    Optional<Packet> take();
 }
