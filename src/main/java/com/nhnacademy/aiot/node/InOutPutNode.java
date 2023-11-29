@@ -1,27 +1,35 @@
 package com.nhnacademy.aiot.node;
 
-import java.util.Map;
-
 import com.nhnacademy.aiot.port.Packet;
+import com.nhnacademy.aiot.port.Pipe;
 import com.nhnacademy.aiot.port.Port;
 
+import java.util.Map;
+import java.util.Optional;
+
 public abstract class InOutPutNode extends Node {
-    private Port inPorts;
+    private Port inPort;
     private Map<Integer, Port> outPorts;
 
-    InOutPutNode(int outPort) {
-        
+    protected Optional<Packet> receive() {
+        return inPort.take().or(Optional::empty);
     }
 
-    InOutPutNode() {
-        super();
+    protected void send(int portNum, Packet packet) {
+        Port outPort = outPorts.get(portNum);
+        if (outPort != null) {
+            outPort.put(packet);
+        }
     }
 
-    protected void recieve() {
-        
+    public void connectInPipe(Pipe pipe) {
+        inPort.add(pipe);
     }
 
-    protected void send(int inPort, Port port) {
-        inPorts = port.
+    public void connectOutPipe(int portNum, Pipe pipe) {
+        Port outPort = outPorts.get(portNum);
+        if (outPort != null) {
+            outPort.add(pipe);
+        }
     }
 }
