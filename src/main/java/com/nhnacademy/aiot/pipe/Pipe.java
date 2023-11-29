@@ -17,7 +17,13 @@ public class Pipe {
      * @return packet을 정상적으로 넣었으면 true, 아니면 flase
      */
     public boolean put(Packet packet) {
-        return queue.offer(packet);
+        try {
+            queue.put(packet);
+            return true;
+        } catch (InterruptedException ignore) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
     }
 
     /**
@@ -37,4 +43,5 @@ public class Pipe {
     public boolean isEmpty() {
         return queue.isEmpty();
     }
+
 }
