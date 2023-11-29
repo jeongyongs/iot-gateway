@@ -5,13 +5,14 @@ import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import com.nhnacademy.aiot.node.impl.OutNole;
+import com.nhnacademy.aiot.node.Info;
+import com.nhnacademy.aiot.node.Outputable;
 import com.nhnacademy.aiot.pipe.Pipe;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MQTTOutNode implements Outputable, Runnable {
     private static MQTTOutNode mqttOutNode;
-    private static Info info;
     private static ArrayList<Pipe> pipeList = new ArrayList<>();
 
     private MQTTOutNode() {
