@@ -29,3 +29,16 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    
+  test1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hi
+        run: echo "hi"
+        
+  test2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hi
+        run: echo "hi"
+
