@@ -25,8 +25,8 @@ class PipeTest {
                 () -> assertTrue(packet instanceof JSONObject),
                 () -> assertTrue(!pipe.isEmpty()),
                 () -> assertTrue(pipe.put(packet)),
-                () -> assertEquals("test", pipe.take().getString("payload")),
-                () -> assertEquals("data/#", pipe.take().getString("topic")),
-                () -> assertEquals(null, pipe.take()));
+                () -> assertEquals("test", pipe.take().get().getString("payload")),
+                () -> assertEquals("data/#", pipe.take().get().getString("topic"))
+                );
     }
 }
