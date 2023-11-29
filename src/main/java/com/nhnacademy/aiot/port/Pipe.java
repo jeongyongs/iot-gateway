@@ -1,4 +1,4 @@
-package com.nhnacademy.aiot.pipe;
+package com.nhnacademy.aiot.port;
 
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
@@ -30,8 +30,7 @@ public class Pipe {
     /**
      * pipe에서 packet을 꺼냅니다.
      * 
-     * @return pipe에서 정상적으로 메세지를 꺼냈다면 value가 packet인 optional, 아니면 value가 null인
-     *         optional
+     * @return pipe에서 정상적으로 메세지를 꺼냈다면 value가 packet인 optional, 아니면 value가 null인 optional
      * @throws InterruptedException
      */
     public Optional<Packet> take() {

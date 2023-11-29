@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-
-import com.nhnacademy.aiot.pipe.Packet;
-import com.nhnacademy.aiot.pipe.Pipe;
+import com.nhnacademy.aiot.port.Packet;
+import com.nhnacademy.aiot.port.Pipe;
 
 class PipeTest {
     @Test
@@ -21,12 +20,9 @@ class PipeTest {
         Pipe pipe = new Pipe();
         pipe.put(packet);
 
-        assertAll(
-                () -> assertTrue(packet instanceof JSONObject),
-                () -> assertTrue(!pipe.isEmpty()),
+        assertAll(() -> assertTrue(packet instanceof JSONObject), () -> assertTrue(!pipe.isEmpty()),
                 () -> assertTrue(pipe.put(packet)),
                 () -> assertEquals("test", pipe.take().get().getString("payload")),
-                () -> assertEquals("data/#", pipe.take().get().getString("topic"))
-                );
+                () -> assertEquals("data/#", pipe.take().get().getString("topic")));
     }
 }

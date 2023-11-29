@@ -1,4 +1,4 @@
-package com.nhnacademy.aiot.pipe;
+package com.nhnacademy.aiot.port;
 
 import java.util.Date;
 
