@@ -8,7 +8,7 @@ import org.json.JSONObject;
  * 데이터를 담을 클래스입니다.
  */
 public class Packet extends JSONObject {
-    Date creationDate;
+    private Date creationDate;
 
     public Packet() {
         super();
