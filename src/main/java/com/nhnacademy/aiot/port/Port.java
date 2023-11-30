@@ -6,22 +6,26 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Predicate;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * pipe들의 packet을 보내거나 받도록 하는 port 클래스입니다.
  */
+@Slf4j
 public class Port implements Runnable {
-    private Thread thread;
-    private boolean inPort = true;
-    private Set<Pipe> pipes;
-    private BlockingQueue<Packet> queue = new LinkedBlockingQueue<>();
+    private final Thread thread;
+    private final Set<Pipe> pipes;
+    private final BlockingQueue<Packet> queue = new LinkedBlockingQueue<>();
 
     /**
-     * @param inPort port의 종류가 inPort이면 true, outPort라면 false
+     * @param inPort port의 종류가 inPort이면 PortType.IN, outPort라면 PortType.OUT
      */
-    public Port(boolean inPort) {
+    public Port(PortType portType) {
         pipes = new HashSet<>();
-        this.inPort = inPort;
         thread = new Thread(this);
+        if (portType == PortType.IN) {
+            thread.start();
+        }
     }
 
     /**
@@ -40,36 +44,31 @@ public class Port implements Runnable {
      * @return 정상적으로 packet이 보내졌다면 true, 아니면 false
      */
     public boolean put(Packet packet) {
-        boolean flag = false;
+        boolean isPacketSent = false;
         for (Pipe pipe : pipes) {
-            flag = pipe.put(packet);
+            isPacketSent = pipe.put(packet);
         }
-        return flag;
+        return isPacketSent;
     }
 
     /**
      * port와 연결된 pipe들의 packet을 가져옵니다.
      * 
-     * @return 정상정으로 가져왔다면 packet, 아니면 null
+     * @return 정상적으로 가져왔다면 packet, InterruptedException이 발생하면 null
      */
     public Packet take() {
         try {
             return queue.take();
         } catch (InterruptedException ignore) {
             Thread.currentThread().interrupt();
+            log.debug("InterruptedException 발생");
             return null;
         }
     }
 
-    public void start() {
-        thread.start();
-    }
-
     @Override
     public void run() {
-        if (inPort) {
-            store();
-        }
+        store();
     }
 
     /**
