@@ -1,12 +1,18 @@
 package com.nhnacademy.aiot.port;
 
-import java.util.Optional;
+public class Port {
 
-public interface Port {
+    public void add(Pipe pipe) {
+        // TODO
+    }
 
-    void add(Pipe pipe);
+    public boolean put(Packet packet) {
+        // TODO
+        return false;
+    }
 
-    boolean put(Packet packet);
-
-    Optional<Packet> take();
+    public Packet take() {
+        // TODO
+        return null;
+    }
 }
