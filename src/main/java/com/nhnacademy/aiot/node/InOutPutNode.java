@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
  * 사용자는 필요에 따라 추가적인 출력 포트를 추가할 수 있습니다.
  */
 public abstract class InOutPutNode extends Node {
-    private final Port inPorts;
+    private final Port inPort;
     private final Map<Integer, Port> outPorts;
     private static final int DEFAULT_PORTNUM = 0;
 
@@ -34,7 +34,7 @@ public abstract class InOutPutNode extends Node {
      */
     protected InOutPutNode(int totalOutputPorts) {
         super();
-        inPorts = new Port();
+        inPort = new Port();
         outPorts = new HashMap<>();
         IntStream.range(0, totalOutputPorts)
                 .forEach(i -> outPorts.put(i, new Port()));
@@ -46,7 +46,7 @@ public abstract class InOutPutNode extends Node {
      * @return 입력으로 받아온 패킷
      */
     protected Packet receive() {
-        return inPorts.take();
+        return inPort.take();
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class InOutPutNode extends Node {
      * @param pipe 연결할 입력 파이프
      */
     public void connectInPipe(Pipe pipe) {
-        inPorts.add(pipe);
+        inPort.add(pipe);
     }
 
     /**
