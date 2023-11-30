@@ -14,7 +14,8 @@ public abstract class InOutputNode extends Node {
     private Map<Integer, Port> outPorts;
 
     protected InOutputNode() {
-        super();
+        this.inPorts = inPorts;
+        this.outPorts = outPorts;
     }
 
     /**
