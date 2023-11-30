@@ -22,9 +22,12 @@ public class Info {
      * 
      * @param key 확인할 정보의 키 값입니다.
      * @return 해당 키의 수집된 정보를 반환합니다.
-     * @exception NullPointerException 해당 키의 정보가 존재하지 않을 경우
+     *         <li>해당 키가 없으면 <code>0</code>을 반환합니다.
      */
     public long get(String key) {
+        if (!infos.containsKey(key)) {
+            return 0;
+        }
         return infos.get(key);
     }
 
