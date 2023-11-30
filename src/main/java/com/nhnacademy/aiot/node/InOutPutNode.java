@@ -36,7 +36,6 @@ public abstract class InOutPutNode extends Node {
         super();
         inPorts = new Port();
         outPorts = new HashMap<>();
-        outPorts.put(0, new Port());
         IntStream.range(0, totalOutputPorts)
                 .forEach(i -> outPorts.put(i, new Port()));
     }
