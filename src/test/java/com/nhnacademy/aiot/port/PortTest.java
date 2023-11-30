@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 class PortTest {
     @Test
     void take() {
-        Port port = new Port(true);
+        Port port = new Port(PortType.IN);
         Pipe pipe1 = new Pipe();
 
         port.add(pipe1);
-        port.start();
         pipe1.put((Packet) new Packet().put("1", "one"));
 
         assertAll(
@@ -23,13 +22,12 @@ class PortTest {
 
     @Test
     void put() {
-        Port port = new Port(false);
+        Port port = new Port(PortType.OUT);
         Pipe pipe1 = new Pipe();
         Pipe pipe2 = new Pipe();
 
         port.add(pipe1);
         port.add(pipe2);
-        port.start();
 
         assertAll(
                 () -> assertTrue(port.put((Packet) new Packet().put("test", "value"))),
