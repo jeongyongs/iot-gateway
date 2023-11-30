@@ -58,7 +58,6 @@ public abstract class InOutPutNode extends Node {
      * @param pipe    연결할 출력 파이프
      */
     public void connectOutPipe(int portNum, Pipe pipe) {
-        Port outPort = outPorts.get(portNum);
-        outPort.add(pipe);
+        outPorts.get(portNum).add(pipe);
     }
 }
