@@ -17,15 +17,13 @@ import java.util.stream.IntStream;
 public abstract class InOutPutNode extends Node {
     private final Port inPorts;
     private final Map<Integer, Port> outPorts;
+    private static final int DEFAULT_PORTNUM = 0;
 
     /**
      * 하나의 입력 포트와 하나의 출력 포트(인덱스 0)로 노드를 초기화하는 기본 생성자입니다.
      */
     protected InOutPutNode() {
-        super();
-        inPorts = new Port();
-        outPorts = new HashMap<>();
-        outPorts.put(0, new Port());
+        this(DEFAULT_PORTNUM);
     }
 
     /**
@@ -35,7 +33,10 @@ public abstract class InOutPutNode extends Node {
      * @param totalOutputPorts 추가할 총 출력 포트의 개수입니다.
      */
     protected InOutPutNode(int totalOutputPorts) {
-        this();
+        super();
+        inPorts = new Port();
+        outPorts = new HashMap<>();
+        outPorts.put(0, new Port());
         IntStream.range(0, totalOutputPorts)
                 .forEach(i -> outPorts.put(i, new Port()));
     }
