@@ -1,9 +1,9 @@
-package com.nhnacademy.aiot.node;
+package com.nhnacademy.aiot.node.impl;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
-
+import com.nhnacademy.aiot.node.InOutPutNode;
 import com.nhnacademy.aiot.port.Packet;
 
 /**
