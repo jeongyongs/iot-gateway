@@ -3,6 +3,7 @@ package com.nhnacademy.aiot.node;
 import com.nhnacademy.aiot.port.Packet;
 import com.nhnacademy.aiot.port.Pipe;
 import com.nhnacademy.aiot.port.Port;
+import com.nhnacademy.aiot.port.PortType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +35,10 @@ public abstract class InOutPutNode extends Node {
      */
     protected InOutPutNode(int totalOutputPorts) {
         super();
-        inPort = new Port();
+        inPort = new Port(PortType.IN);
         outPorts = new HashMap<>();
         IntStream.range(0, totalOutputPorts)
-                .forEach(i -> outPorts.put(i, new Port()));
+                .forEach(i -> outPorts.put(i, new Port(PortType.OUT)));
     }
 
     /**
