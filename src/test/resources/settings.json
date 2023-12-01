@@ -1,0 +1,20 @@
+{
+    "an": "application/#",
+    "s": [
+        "temperature",
+        "pressure"
+    ],
+    "nodes": [
+        {
+            "id": "4h23jk4g32jk",
+            "class": "MQTTInNode",
+            "properties": {
+                "host": "ems.nhnacademy.com",
+                "port": 1883,
+                "topics": [
+                    "temperature"
+                ]
+            }
+        }
+    ]
+}

@@ -1,6 +1,7 @@
 package com.nhnacademy.aiot;
 
 import com.nhnacademy.aiot.flow.Flow;
+import com.nhnacademy.aiot.flow.FlowFactory;
 import com.nhnacademy.aiot.setting.Setting;
 import com.nhnacademy.aiot.util.SettingParser;
 
@@ -18,7 +19,7 @@ public class Application {
      */
     public static void run(String[] args) {
         Setting setting = SettingParser.parse(args);
-        Flow flow = null;
+        Flow flow = FlowFactory.getInstance(setting);
         flow.start();
     }
 }
