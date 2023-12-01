@@ -23,9 +23,16 @@ public class FunctionNode extends InOutPutNode {
 
     @Override
     protected void process() {
+        // 페킷을 inPort에서 꺼내옵니다.
         Packet packet = receive();
+        countReceivedPacket();
+
+        // 새로운 페킷을 만듭니다.
         List<Packet> packetList = function.apply(packet);
+
+        // 새롭게 만들어진 페킷을 올바른 outPort로 보넵니다.
         IntStream.range(0, packetList.size())
                 .forEach(i -> send(i, packetList.get(i)));
+        countSentPacket();
     }
 }
