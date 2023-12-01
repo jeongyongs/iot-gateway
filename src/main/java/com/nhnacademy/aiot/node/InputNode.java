@@ -5,12 +5,13 @@ import java.util.Map;
 import com.nhnacademy.aiot.port.Packet;
 import com.nhnacademy.aiot.port.Pipe;
 import com.nhnacademy.aiot.port.Port;
+import com.nhnacademy.aiot.port.PortType;
 
 public abstract class InputNode extends Node {
 
     private static final int DEFAULT_PORTNUM = 0;
     private Map<Integer, Port> outPorts = new HashMap<>();
-    private Port inPort = new Port();
+    private Port inPort = new Port(PortType.IN);
 
 
     // 디폴트 포트넘버 0
@@ -24,11 +25,6 @@ public abstract class InputNode extends Node {
         outPorts.get(portNumber).add(pipe);
     }
 
-    public void connectInputPort(Pipe pipe) {
-        // 이 노드의 inputPort예 잇는 pipe와 연결
-        inPort.add(pipe);
-    }
-
     // 디폴트 포트넘버 0
     protected void send(Packet packet) {
         send(DEFAULT_PORTNUM, packet);
@@ -37,10 +33,6 @@ public abstract class InputNode extends Node {
     // 포트 넘버 지정
     protected void send(int portNumber, Packet packet) {
         outPorts.get(portNumber).put(packet);
-    }
-
-    protected Packet receive() {
-        return inPort.take();
     }
 
 }
