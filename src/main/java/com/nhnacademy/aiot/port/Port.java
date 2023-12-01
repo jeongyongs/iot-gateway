@@ -1,8 +1,8 @@
 package com.nhnacademy.aiot.port;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Predicate;
 
@@ -21,7 +21,7 @@ public class Port implements Runnable {
      * @param inPort port의 종류가 inPort이면 PortType.IN, outPort라면 PortType.OUT
      */
     public Port(PortType portType) {
-        pipes = new HashSet<>();
+        pipes = ConcurrentHashMap.newKeySet();
         thread = new Thread(this);
         if (portType == PortType.IN) {
             thread.start();
