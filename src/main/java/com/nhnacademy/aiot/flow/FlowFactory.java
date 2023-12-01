@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.nhnacademy.aiot.node.impl.FunctionNode;
 import com.nhnacademy.aiot.node.impl.MQTTInNode;
 import com.nhnacademy.aiot.node.impl.MQTTOutNode;
-import com.nhnacademy.aiot.port.Packet;
 import com.nhnacademy.aiot.port.Pipe;
 import com.nhnacademy.aiot.setting.Setting;
 

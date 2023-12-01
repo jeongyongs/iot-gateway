@@ -1,8 +1,7 @@
 package com.nhnacademy.aiot.port;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Predicate;
 
@@ -14,14 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Port implements Runnable {
     private final Thread thread;
-    private final Set<Pipe> pipes;
+    private final CopyOnWriteArraySet<Pipe> pipes;
     private final BlockingQueue<Packet> queue = new LinkedBlockingQueue<>();
 
     /**
      * @param inPort port의 종류가 inPort이면 PortType.IN, outPort라면 PortType.OUT
      */
     public Port(PortType portType) {
-        pipes = new HashSet<>();
+        pipes = new CopyOnWriteArraySet<>();
         thread = new Thread(this);
         if (portType == PortType.IN) {
             thread.start();
