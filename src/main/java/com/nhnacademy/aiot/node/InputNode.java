@@ -12,6 +12,7 @@ public abstract class InputNode extends Node {
     // 포트 넘버 지정
     public void connectOutPort(Pipe pipe) {
         // 이 노드의 portNumber번의 outPort에 잇는 pipe와 연결
+
         outPorts.add(pipe);
     }
 
@@ -20,4 +21,3 @@ public abstract class InputNode extends Node {
         outPorts.put(packet);
     }
 }
-
