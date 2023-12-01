@@ -8,13 +8,24 @@
         {
             "id": "4h23jk4g32jk",
             "class": "MQTTInNode",
-            "properties": {
-                "host": "ems.nhnacademy.com",
-                "port": 1883,
-                "topics": [
-                    "temperature"
-                ]
-            }
+            "broker": "ems.nhnacademy.com",
+            "port": 1883,
+            "wires": [
+                "34258j798421"
+            ]
+        },
+        {
+            "id": "34258j798421",
+            "class": "FunctionNode",
+            "totalOutPorts": 1,
+            "func": "System.out.println(packet);\nreturn List.of(packet);",
+            "wires": []
+        },
+        {
+            "id": "j39rthnjt29r32j",
+            "class": "MQTTOutNode",
+            "broker": "localhost",
+            "port": 1883
         }
     ]
 }
