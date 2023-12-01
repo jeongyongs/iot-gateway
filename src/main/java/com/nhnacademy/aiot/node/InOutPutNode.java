@@ -15,9 +15,11 @@ import java.util.stream.IntStream;
  * 있습니다.
  */
 public abstract class InOutPutNode extends Node {
+
+    private static final int DEFAULT_PORTNUM = 0;
+
     private final Port inPort;
     private final Map<Integer, Port> outPorts;
-    private static final int DEFAULT_PORTNUM = 0;
 
     /**
      * 하나의 입력 포트와 하나의 출력 포트(인덱스 0)로 노드를 초기화하는 기본 생성자입니다.

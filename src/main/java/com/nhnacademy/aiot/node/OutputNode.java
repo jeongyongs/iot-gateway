@@ -1,17 +1,13 @@
 package com.nhnacademy.aiot.node;
 
-import java.util.Map;
 import com.nhnacademy.aiot.port.Packet;
 import com.nhnacademy.aiot.port.Pipe;
 import com.nhnacademy.aiot.port.Port;
 import com.nhnacademy.aiot.port.PortType;
 
 public abstract class OutputNode extends Node {
-    private Port inPorts;
-    private Map<Integer, Port> outPorts;
 
-    Port inport = new Port(PortType.IN);
-    Port ouPort = new Port(PortType.OUT);
+    private Port inPort = new Port(PortType.IN);
 
     /**
      * port 존재여부 확인 후,
@@ -21,10 +17,8 @@ public abstract class OutputNode extends Node {
      * @param portNum
      * @param pipe
      */
-    public void connectOutPort(int portNum, Pipe pipe) {
-        if (inPorts != null) {
-            outPorts.get(portNum).add(pipe);
-        }
+    public void connectInPort(Pipe pipe) {
+        inPort.add(pipe);
     }
 
     /**
@@ -33,6 +27,6 @@ public abstract class OutputNode extends Node {
      * @return
      */
     protected Packet receive() {
-        return inPorts.take();
+        return inPort.take();
     }
 }
