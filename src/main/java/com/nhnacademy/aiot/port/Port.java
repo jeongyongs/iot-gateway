@@ -77,9 +77,7 @@ public class Port implements Runnable {
      */
     private void store() {
         while (!Thread.currentThread().isInterrupted()) {
-            pipes.stream()
-                    .filter(Predicate.not(Pipe::isEmpty))
-                    .forEach(this::putToQueue);
+            pipes.stream().filter(Predicate.not(Pipe::isEmpty)).forEach(this::putToQueue);
         }
     }
 

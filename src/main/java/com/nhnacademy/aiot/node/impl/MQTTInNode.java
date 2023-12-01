@@ -31,15 +31,34 @@ public class MQTTInNode extends InputNode {
         }
     }
 
+
+
+    @Override
+    public void run() {
+        preprocess();
+        process();
+        while (!Thread.interrupted()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        postprocess();
+    }
+
+
+
     @Override
     protected void process() {
         try {
-            Packet packet = new Packet();
             subscriber.subscribe(applicationName, (topic, msg) -> {
+                Packet packet = new Packet();
                 packet.append("topic", topic);
                 packet.append("payload", msg.getPayload());
+                send(packet);
             });
-            send(packet);
         } catch (MqttException e) {
             log.error(ERROR, e);
         }

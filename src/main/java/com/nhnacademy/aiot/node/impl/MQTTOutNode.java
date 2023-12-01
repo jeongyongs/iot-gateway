@@ -49,19 +49,12 @@ public class MQTTOutNode extends OutputNode {
             stringPacket.setPayload(pMsg.getBytes());
             client.publish(pTopic, stringPacket);
             countSentPacket();
-
-            while (!Thread.currentThread().isInterrupted()) {
-                Thread.sleep(100);
-            }
-
-            // 연결 종료
-            client.disconnect();
-            log.info("disconenct");
         } catch (MqttException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+        // catch (InterruptedException e) {
+        // e.printStackTrace();
+        // }
     }
 
     // publish(packet.getString("topic")

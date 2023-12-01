@@ -7,8 +7,7 @@ import com.nhnacademy.aiot.node.InOutPutNode;
 import com.nhnacademy.aiot.port.Packet;
 
 /**
- * 받은 페킷을 전달 받은 요구사항에 맞게 재구성하여
- * 다음 노드로 페킷을 전달 합니다.
+ * 받은 페킷을 전달 받은 요구사항에 맞게 재구성하여 다음 노드로 페킷을 전달 합니다.
  */
 public class FunctionNode extends InOutPutNode {
     private final Function<Packet, List<Packet>> function;
@@ -16,8 +15,8 @@ public class FunctionNode extends InOutPutNode {
     /**
      * @param function 페킷 구성 요구 사항
      */
-    public FunctionNode(Function<Packet, List<Packet>> function) {
-        super();
+    public FunctionNode(int portNum, Function<Packet, List<Packet>> function) {
+        super(portNum);
         this.function = function;
     }
 
@@ -31,8 +30,7 @@ public class FunctionNode extends InOutPutNode {
         List<Packet> packetList = function.apply(packet);
 
         // 새롭게 만들어진 페킷을 올바른 outPort로 보넵니다.
-        IntStream.range(0, packetList.size())
-                .forEach(i -> send(i, packetList.get(i)));
+        IntStream.range(0, packetList.size()).forEach(i -> send(i, packetList.get(i)));
         countSentPacket();
     }
 }
