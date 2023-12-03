@@ -3,6 +3,8 @@ NHN Academy IoT Gateway 팀 프로젝트 저장소
 
 팀 구성원: **남지민, 변상우, 배범익, 이정용, 이주현**
 
+[프로젝트 바로가기](https://github.com/jeongyongs/iot-gateway/tree/temp)
+
 # ℹ️ About
 LoRa 디바이스를 관리하는 ChirpStack 서버와 연동하여, 데이터를 수집하는 Gateway를 만드는 프로젝트입니다.
 
