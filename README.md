@@ -6,6 +6,9 @@ NHN Academy IoT Gateway 팀 프로젝트 저장소
 # ℹ️ About
 LoRa 디바이스를 관리하는 ChirpStack 서버와 연동하여, 데이터를 수집하는 Gateway를 만드는 프로젝트입니다.
 
+# 🚰 Flow
+![flow-diagram](img/flow-diagram.png)
+
 # ✴️ Feature
 - 커맨드라인으로 옵션을 설정할 수 있습니다.
   ```sh
@@ -35,5 +38,5 @@ LoRa 디바이스를 관리하는 ChirpStack 서버와 연동하여, 데이터�
   - 입력, 출력, 동작 상태 등 각각의 기능별로 구분하여 설정을 기술할 수 있습니다.
 
 # 📐 Diagram
-![](img/diagram.png)
-![](img/diagram2.png)
+![object-diagram](img/object-diagram.png)
+![class-diagram](img/class-diagram.png)
