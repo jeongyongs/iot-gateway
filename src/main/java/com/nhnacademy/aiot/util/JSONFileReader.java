@@ -1,8 +1,8 @@
 package com.nhnacademy.aiot.util;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import org.json.JSONObject;
 
 /*
@@ -22,7 +22,9 @@ public class JSONFileReader {
     public static JSONObject read(String filename) {
         JSONObject o = null;
 
-        try (BufferedReader f = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader f = new BufferedReader(new InputStreamReader(
+                JSONFileReader.class.getClassLoader().getResourceAsStream(filename)))) {
+
             String body = f.lines().reduce("", String::concat);
             o = new JSONObject(body);
 

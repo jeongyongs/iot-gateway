@@ -14,24 +14,24 @@ import com.nhnacademy.aiot.setting.Setting;
 /**
  * commnad line에서 application name과 sensor type을 분석하는 클래스입니다.
  */
-public class SettingParser {
+public class SettingLoader {
+    private static final String FLOW = "flow";
     private static final String DEFAULT_APPLICATION_NAME = "#/";
     private static final String DEFAULT_SENSOR_TYPE = "temperature";
     private static final String APPLICATION_NAME_OPTION = "an";
     private static final String SENSOR_TYPE_OPTION = "s";
     private static final String CONFIGURATION_OPTION = "c";
 
-    private SettingParser() {
-    }
+    private SettingLoader() {}
 
     /**
      * command line을 분석합니다.
      * 
      * @param args main에서 입력한 String 배열
-     * @return application name은 <code>"an"</code>, sensor type은 JSONArray로
-     *         <code>"s"</code>라는 key에 담은 <code>JSONObject</code>
+     * @return application name은 <code>"an"</code>, sensor type은 JSONArray로 <code>"s"</code>라는 key에
+     *         담은 <code>JSONObject</code>
      */
-    public static Setting parse(String[] args) {
+    public static Setting load(String[] args) {
         Setting setting = new Setting();
         Options options = new Options();
         CommandLineParser parser = new DefaultParser();
@@ -45,7 +45,8 @@ public class SettingParser {
             commandLine = parser.parse(options, args);
 
             if (commandLine.hasOption(APPLICATION_NAME_OPTION)) {
-                setting.put(APPLICATION_NAME_OPTION, commandLine.getOptionValue(APPLICATION_NAME_OPTION));
+                setting.put(APPLICATION_NAME_OPTION,
+                        commandLine.getOptionValue(APPLICATION_NAME_OPTION));
             }
             if (commandLine.hasOption(SENSOR_TYPE_OPTION)) {
                 setting.put(SENSOR_TYPE_OPTION,
@@ -64,19 +65,22 @@ public class SettingParser {
     /**
      * args에서 입력하지 않은 옵션을 기본값이나 설정 파일의 옵션으로 설정합니다.
      * 
-     * @param setting     수정할 JSONObject
+     * @param setting 수정할 JSONObject
      * @param commandLine 읽어야 할 commandLine
      */
     private static void fillNull(Setting setting, CommandLine commandLine) {
         // 설정 파일이 있을 때
         if (commandLine.hasOption(CONFIGURATION_OPTION)) {
-            JSONObject settingJSON = JSONFileReader.read(commandLine.getOptionValue(CONFIGURATION_OPTION));
+            JSONObject settingJSON =
+                    JSONFileReader.read(commandLine.getOptionValue(CONFIGURATION_OPTION));
             if (setting.isNull(APPLICATION_NAME_OPTION)) {
-                setting.put(APPLICATION_NAME_OPTION, settingJSON.getString(APPLICATION_NAME_OPTION));
+                setting.put(APPLICATION_NAME_OPTION,
+                        settingJSON.getString(APPLICATION_NAME_OPTION));
             }
             if (setting.isNull(SENSOR_TYPE_OPTION)) {
                 setting.put(SENSOR_TYPE_OPTION, settingJSON.getJSONArray(SENSOR_TYPE_OPTION));
             }
+            setting.put(FLOW, settingJSON.getString(FLOW));
             return;
         }
         // 설정 파일이 없을 때 (기본값으로 설정)
@@ -86,6 +90,5 @@ public class SettingParser {
         if (setting.isNull(SENSOR_TYPE_OPTION)) {
             setting.put(SENSOR_TYPE_OPTION, new JSONArray().put(DEFAULT_SENSOR_TYPE));
         }
-
     }
 }

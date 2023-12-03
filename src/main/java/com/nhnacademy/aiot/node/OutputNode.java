@@ -17,7 +17,7 @@ public abstract class OutputNode extends Node {
      * @param portNum
      * @param pipe
      */
-    public void connectInPort(Pipe pipe) {
+    public void connectIn(Pipe pipe) {
         inPort.add(pipe);
     }
 

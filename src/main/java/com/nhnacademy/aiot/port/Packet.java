@@ -15,6 +15,11 @@ public class Packet extends JSONObject {
         creationDate = new Date();
     }
 
+    public Packet(String json) {
+        super(json);
+        creationDate = new Date();
+    }
+
     /**
      * 인스턴스가 생성된 시간을 반환합니다.
      * 

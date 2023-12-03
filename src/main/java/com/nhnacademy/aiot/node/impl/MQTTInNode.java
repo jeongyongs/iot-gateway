@@ -3,13 +3,21 @@ package com.nhnacademy.aiot.node.impl;
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.json.JSONObject;
 import com.nhnacademy.aiot.node.InputNode;
+import com.nhnacademy.aiot.node.NodeProperty;
 import com.nhnacademy.aiot.port.Packet;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MQTTInNode extends InputNode {
 
+    private static final int DEFAULT_PORT = 0;
+    private static final int TOTAL_OUT_PORT = 1;
+    private static final String BROKER_FORMAT = "tcp://%s:%d";
+    private static final String PORT = "port";
+    private static final String BROKER = "broker";
+    private static final String APPLICATION_NAME = "applicationName";
     private static final String TOPIC = "topic";
     private static final String PAYLOAD = "payload";
     private static final String ERROR = "에러";
@@ -18,13 +26,13 @@ public class MQTTInNode extends InputNode {
 
     private MqttClient subscriber;
     private final String applicationName;
-    private final String subscriberId;
 
-    public MQTTInNode(String brokerId, String applicationName) {
-        subscriberId = UUID.randomUUID().toString();
-        this.applicationName = applicationName;
+    public MQTTInNode(NodeProperty nodeProperty) {
+        super(TOTAL_OUT_PORT);
+        this.applicationName = nodeProperty.getString(APPLICATION_NAME);
         try {
-            subscriber = new MqttClient(brokerId, subscriberId);
+            subscriber = new MqttClient(String.format(BROKER_FORMAT, nodeProperty.getString(BROKER),
+                    nodeProperty.getInt(PORT)), UUID.randomUUID().toString());
             subscriber.connect();
             log.info(CONNECT_MESSAGE);
 
@@ -56,9 +64,9 @@ public class MQTTInNode extends InputNode {
         try {
             subscriber.subscribe(applicationName, (topic, msg) -> {
                 Packet packet = new Packet();
-                packet.append(TOPIC, topic);
-                packet.append(PAYLOAD, msg.getPayload());
-                send(packet);
+                packet.put(TOPIC, topic);
+                packet.put(PAYLOAD, new JSONObject(new String(msg.getPayload())));
+                send(DEFAULT_PORT, packet);
             });
         } catch (MqttException e) {
             log.error(ERROR, e);

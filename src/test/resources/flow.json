@@ -1,0 +1,28 @@
+{
+    "nodes": [
+        {
+            "id": "4h23jk4g32jk",
+            "class": "MQTTInNode",
+            "broker": "ems.nhnacademy.com",
+            "port": 1883,
+            "wires": [
+                "34258j798421"
+            ]
+        },
+        {
+            "id": "34258j798421",
+            "class": "FunctionNode",
+            "totalOutPorts": 1,
+            "func": "System.out.println(packet);\nreturn List.of(packet);",
+            "wires": [
+                "j39rthnjt29r32j"
+            ]
+        },
+        {
+            "id": "j39rthnjt29r32j",
+            "class": "MQTTOutNode",
+            "broker": "localhost",
+            "port": 1883
+        }
+    ]
+}

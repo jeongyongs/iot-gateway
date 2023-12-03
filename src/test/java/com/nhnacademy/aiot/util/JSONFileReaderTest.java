@@ -12,15 +12,15 @@ class JSONFileReaderTest {
     // 어떻게 mock으로 파일 입출력 테스트를 할 수 있을까?
     void readTest() {
         // given
-        String filename = "test.json";
+        String filename = "settings.json";
 
         // when
         JSONObject actual = JSONFileReader.read(filename);
 
         // then
         assertAll( //
-                () -> assertTrue(actual.has("test")), //
-                () -> assertEquals(1, actual.getInt("test")) //
+                () -> assertTrue(actual.has("an")), //
+                () -> assertEquals("application/#", actual.getString("an")) //
         );
     }
 }
