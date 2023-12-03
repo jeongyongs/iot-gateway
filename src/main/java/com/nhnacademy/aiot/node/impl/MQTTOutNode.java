@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MQTTOutNode extends OutputNode {
 
-    private static final boolean RETAINED = true;
+    private static final boolean RETAINED = false;
     private static final int QOS = 1;
     private static final String WILL_TOPIC = "gateway/";
     private static final String WILL_PAYLOAD = "Disconnected";
