@@ -30,7 +30,6 @@ public class FlowFactory {
 
     public static Flow getInstance(Setting setting) throws Exception {
         Flow flow = new Flow();
-        System.out.println(setting);
         JSONArray nodes = JSONFileReader.read(setting.getString(FLOW)).getJSONArray(NODES);
         Map<String, Pipe> pipeMap = new HashMap<>();
 
