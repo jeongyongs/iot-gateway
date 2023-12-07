@@ -12,24 +12,28 @@ import lombok.extern.slf4j.Slf4j;
 public class MQTTOutNode extends OutputNode {
     private MqttClient client;
 
+    private String HOST = "tcp://localhost";
+    private String PORT = "1883";
+    private String WILL_TOPIC = "connect/will";
+    private byte[] WILL_MESSAGE = "Disconnected".getBytes();
+    private int QOS = 1;
+
     /**
      * broker connect 및 option 설정
      */
     public MQTTOutNode() {
         try {
-            client = new MqttClient("tcp://localhost", "publisherID");
-            log.info("connect");
+            client = new MqttClient(HOST, PORT);
+            log.info("MqttClient connect_publish");
 
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
-            options.setWill("test/will", "Disconnected".getBytes(), 1, true);
+            options.setWill(WILL_TOPIC, WILL_MESSAGE, QOS, true);
 
             client.connect(options);
         } catch (MqttException e) {
-            e.printStackTrace();
-            countFailedPacket();
-            log.info("connect fail");
+            log.info("MQTTClient_pub_ connect fail");
         }
     }
 
@@ -42,67 +46,21 @@ public class MQTTOutNode extends OutputNode {
     protected void process() {
         try {
             Packet packet = receive();
-            String pTopic = packet.get("topic").toString();
-            String pMsg = packet.get("payload").toString();
+            String pTopic = packet.getString("topic");
+            String pMsg = packet.getString("payload");
 
             MqttMessage stringPacket = new MqttMessage();
             stringPacket.setPayload(pMsg.getBytes());
             client.publish(pTopic, stringPacket);
             countSentPacket();
 
-            while (!Thread.currentThread().isInterrupted()) {
-                Thread.sleep(100);
-            }
-
             // 연결 종료
             client.disconnect();
-            log.info("disconenct");
+            log.info("MqttClient disconnect_publish");
         } catch (MqttException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            countFailedPacket();
             e.printStackTrace();
         }
     }
-
-    // publish(packet.getString("topic")
-    // new Message(packet.getJSONObject("payload").toString().getBytes()));
-
-    /**
-     * packet 꺼내기
-     * <p>
-     * JSONObject로 되어있는 packet을 꺼내와서 String 형식으로
-     */
-    // String putPacket() {
-
-    // String pTopic = packet.get("topic").toString();
-    // String pMsg = packet.get("payload").toString();
-
-    // // String stringPacket = receive().toString();
-    // // countReceivedPacket();
-    // // return stringPacket;
-    // }
-
-    /**
-     * msg(topic,value) 전송
-     * 
-     * @param topic
-     * @param msg
-     * @return
-     */
-    // public boolean send(String topic, String msg) {
-    // try {
-    // // Packet packet = receive();
-    // // String pTopic = packet.get("topic").toString();
-    // // String pMsg = packet.get("payload").toString();
-
-    // // MqttMessage stringPacket = new MqttMessage();
-    // // stringPacket.setPayload(pMsg.getBytes());
-    // // client.publish(pTopic, stringPacket);
-    // // countSentPacket();
-    // } catch (MqttException e) {
-    // e.printStackTrace();
-    // }
-    // return true;
-    // }
 
 }
