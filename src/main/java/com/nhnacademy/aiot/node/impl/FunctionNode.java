@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import com.nhnacademy.aiot.node.InOutPutNode;
+import com.nhnacademy.aiot.node.NodeProperty;
 import com.nhnacademy.aiot.port.Packet;
 
 /**
@@ -11,14 +12,19 @@ import com.nhnacademy.aiot.port.Packet;
  * 다음 노드로 페킷을 전달 합니다.
  */
 public class FunctionNode extends InOutPutNode {
+
+    private static final String FUNC = "func";
+    private static final String TOTAL_OUT_PORTS = "totalOutProts";
+
     private final Function<Packet, List<Packet>> function;
 
     /**
-     * @param function 페킷 구성 요구 사항
+     * @param nodeProperty JSONObject 입력된 페킷 구성을 가져옵니다.
      */
-    public FunctionNode(Function<Packet, List<Packet>> function) {
-        super();
-        this.function = function;
+    @SuppressWarnings("unchecked")
+    public FunctionNode(NodeProperty nodeProperty) {
+        super(nodeProperty.getInt(TOTAL_OUT_PORTS));
+        function = (Function<Packet, List<Packet>>) nodeProperty.get(FUNC);
     }
 
     @Override
