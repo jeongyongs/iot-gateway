@@ -1,0 +1,8 @@
+{
+    "an": "application/#",
+    "s": [
+        "temperature",
+        "pressure"
+    ],
+    "flow": "flow.json"
+}

@@ -1,0 +1,39 @@
+{
+    "nodes": [
+        {
+            "id": "4h23jk4g32jk",
+            "class": "MQTTInNode",
+            "broker": "ems.nhnacademy.com",
+            "port": 1883,
+            "wires": [
+                [
+                    "34258j798421"
+                ]
+            ]
+        },
+        {
+            "id": "34258j798421",
+            "class": "FunctionNode",
+            "totalOutPorts": 1,
+            "func": "if (!packet.getJSONObject(\"payload\").has(\"object\")) { Packet p = new Packet(); p.put(\"topic\", \"test/fail\"); p.put(\"payload\", \"fail\"); return List.of(p); } packet.put(\"topic\", \"test/d/\" + packet.getJSONObject(\"payload\").getJSONObject(\"deviceInfo\").getString(\"devEui\")); JSONObject jsonObject = new JSONObject(); jsonObject.put(\"time\", System.currentTimeMillis()); jsonObject.put(\"value\", packet.getJSONObject(\"payload\").getJSONObject(\"object\")); packet.put(\"payload\", jsonObject); return List.of(packet);",
+            "wires": [
+                [
+                    "j39rthnjt29r32j",
+                    "fh34891fherfj"
+                ]
+            ]
+        },
+        {
+            "id": "fh34891fherfj",
+            "class": "FunctionNode",
+            "totalOutPorts": 1,
+            "func": "System.out.println(\"패킷을 전송했습니다.\");\n        return List.of(packet);"
+        },
+        {
+            "id": "j39rthnjt29r32j",
+            "class": "MQTTOutNode",
+            "broker": "localhost",
+            "port": 1883
+        }
+    ]
+}
