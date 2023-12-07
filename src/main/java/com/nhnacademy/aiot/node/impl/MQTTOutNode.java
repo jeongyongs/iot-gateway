@@ -4,6 +4,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import com.nhnacademy.aiot.node.NodeProperty;
 import com.nhnacademy.aiot.node.OutputNode;
 import com.nhnacademy.aiot.port.Packet;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MQTTOutNode extends OutputNode {
     private MqttClient client;
 
-    private String HOST = "tcp://localhost";
+    private String Broker = "tcp://localhost:1883";
     private String PORT = "1883";
     private String WILL_TOPIC = "connect/will";
     private byte[] WILL_MESSAGE = "Disconnected".getBytes();
@@ -21,9 +22,9 @@ public class MQTTOutNode extends OutputNode {
     /**
      * broker connect 및 option 설정
      */
-    public MQTTOutNode() {
+    public MQTTOutNode(NodeProperty nodeProperty) {
         try {
-            client = new MqttClient(HOST, PORT);
+            client = new MqttClient(Broker, PORT);
             log.info("MqttClient connect_publish");
 
             MqttConnectOptions options = new MqttConnectOptions();
