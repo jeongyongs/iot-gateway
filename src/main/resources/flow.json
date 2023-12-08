@@ -3,8 +3,7 @@
         {
             "id": "4h23jk4g32jk",
             "class": "MQTTInNode",
-            "broker": "ems.nhnacademy.com",
-            "port": 1883,
+            "broker":"slakfji43kj43nr341", 
             "wires": [
                 [
                     "34258j798421"
@@ -32,7 +31,20 @@
         {
             "id": "j39rthnjt29r32j",
             "class": "MQTTOutNode",
-            "broker": "localhost",
+            "broker": "k3j4hb43ctu34k4j3"
+        },
+        {
+            "id": "slakfji43kj43nr341",
+            "class": "Broker",
+            "name" : "NHN Academy EMS",
+            "broker" : "ems.nhnacademy.com",
+            "port": 1883
+        },
+        {
+            "id": "k3j4hb43ctu34k4j3",
+            "class": "Broker",
+            "name" : "localhost",
+            "broker" : "localhost",
             "port": 1883
         }
     ]
