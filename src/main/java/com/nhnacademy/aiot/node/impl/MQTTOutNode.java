@@ -1,5 +1,6 @@
 package com.nhnacademy.aiot.node.impl;
 
+import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -13,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MQTTOutNode extends OutputNode {
     private MqttClient client;
 
-    private String Broker = "tcp://localhost:1883";
-    private String PORT = "1883";
+    private String Broker = "tcp://%s:%d";
+    private String PORT = "port";
     private String WILL_TOPIC = "connect/will";
     private byte[] WILL_MESSAGE = "Disconnected".getBytes();
     private int QOS = 1;
@@ -24,7 +25,9 @@ public class MQTTOutNode extends OutputNode {
      */
     public MQTTOutNode(NodeProperty nodeProperty) {
         try {
-            client = new MqttClient(Broker, PORT);
+            client = new MqttClient(String.format(Broker, nodeProperty.getString(Broker), nodeProperty.getInt(PORT)),
+                                        UUID.randomUUID().toString());
+            //"tcp://" + nodeProperty.getString("broker")+":"+nodeProperty.getInt("port"), "6776"
             log.info("MqttClient connect_publish");
 
             MqttConnectOptions options = new MqttConnectOptions();
