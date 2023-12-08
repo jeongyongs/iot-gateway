@@ -36,12 +36,15 @@ public class MQTTInNode extends InputNode {
      * 
      * @param nodeProperty 연결정보를 NodeProperty를 통해 받습니다.
      */
+
     public MQTTInNode(NodeProperty nodeProperty) {
         super(TOTAL_OUT_PORTS);
         this.applicationName = nodeProperty.getString(APPLICATION_NAME);
         try {
             subscriber = new MqttClient(
-                    String.format(BROKER_FORMAT, nodeProperty.getString(BROKER), nodeProperty.get(PORT)),
+                    String.format(BROKER_FORMAT,
+                            nodeProperty.getJSONObject(BROKER).getString(BROKER),
+                            nodeProperty.getJSONObject(BROKER).getInt(PORT)),
                     UUID.randomUUID().toString());
             subscriber.connect();
             log.info(CONNECT_MESSAGE);
