@@ -25,7 +25,7 @@ public class MQTTOutNode extends OutputNode {
      */
     public MQTTOutNode(NodeProperty nodeProperty) {
         try {
-            client = new MqttClient(String.format(Broker, nodeProperty.getString(Broker), nodeProperty.getInt(PORT)),
+            client = new MqttClient(String.format(Broker, nodeProperty.getJSONObject(Broker).getString(Broker), nodeProperty.getJSONObject(Broker).getInt(PORT)),
                                         UUID.randomUUID().toString());
             log.info("MqttClient connect_publish");
 
