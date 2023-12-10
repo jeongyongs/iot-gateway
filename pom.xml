@@ -78,6 +78,11 @@
             <version>${junit}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-console</artifactId>
+            <version>3.0.19</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-class SettingParserTest {
+class SettingLoaderTest {
     @Test
     void ArgsTest() {
-        JSONObject setting = SettingParser.parse(new String[] { "--an", "data/", "-s", "humidity,temperatrue" });
+        JSONObject setting = SettingLoader.load(new String[] { "--an", "data/", "-s", "humidity,temperatrue" });
 
         assertAll(
                 () -> assertEquals("data/", setting.getString("an")),
@@ -19,7 +19,7 @@ class SettingParserTest {
 
     @Test
     void ArgsWithNullTest() {
-        JSONObject setting = SettingParser.parse(new String[] {});
+        JSONObject setting = SettingLoader.load(new String[] {});
 
         assertAll(
                 () -> assertEquals("#/", setting.getString("an")),
@@ -28,8 +28,7 @@ class SettingParserTest {
 
     @Test
     void SettingJSONTest() {
-        JSONObject setting = SettingParser
-                .parse(new String[] { "--an", "data/", "-c", "./src/test/java/com/nhnacademy/aiot/util/test2.json" });
+        JSONObject setting = SettingLoader.load(new String[] { "--an", "data/", "-c", "./src/test/java/com/nhnacademy/aiot/util/test2.json" });
 
         assertAll(
                 () -> assertEquals("data/", setting.getString("an")),

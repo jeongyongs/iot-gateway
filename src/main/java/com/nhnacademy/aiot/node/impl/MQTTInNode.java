@@ -21,7 +21,7 @@ public class MQTTInNode extends InputNode {
     private static final String BROKER_FORMAT = "tcp://%s:%d";
     private static final String PORT = "port";
     private static final String BROKER = "broker";
-    private static final String APPLICATION_NAME = "applicationName";
+    private static final String APPLICATION_NAME = "an";
     private static final String TOPIC = "topic";
     private static final String PAYLOAD = "payload";
     private static final String ERROR = "에러";
@@ -36,12 +36,15 @@ public class MQTTInNode extends InputNode {
      * 
      * @param nodeProperty 연결정보를 NodeProperty를 통해 받습니다.
      */
+
     public MQTTInNode(NodeProperty nodeProperty) {
         super(TOTAL_OUT_PORTS);
         this.applicationName = nodeProperty.getString(APPLICATION_NAME);
         try {
             subscriber = new MqttClient(
-                    String.format(BROKER_FORMAT, nodeProperty.getString(BROKER), nodeProperty.get(PORT)),
+                    String.format(BROKER_FORMAT,
+                            nodeProperty.getJSONObject(BROKER).getString(BROKER),
+                            nodeProperty.getJSONObject(BROKER).getInt(PORT)),
                     UUID.randomUUID().toString());
             subscriber.connect();
             log.info(CONNECT_MESSAGE);

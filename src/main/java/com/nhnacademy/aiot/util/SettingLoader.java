@@ -14,14 +14,15 @@ import com.nhnacademy.aiot.setting.Setting;
 /**
  * commnad line에서 application name과 sensor type을 분석하는 클래스입니다.
  */
-public class SettingParser {
+public class SettingLoader {
+    private static final String FLOW = "flow";
     private static final String DEFAULT_APPLICATION_NAME = "#/";
     private static final String DEFAULT_SENSOR_TYPE = "temperature";
     private static final String APPLICATION_NAME_OPTION = "an";
     private static final String SENSOR_TYPE_OPTION = "s";
     private static final String CONFIGURATION_OPTION = "c";
 
-    private SettingParser() {
+    private SettingLoader() {
     }
 
     /**
@@ -31,7 +32,7 @@ public class SettingParser {
      * @return application name은 <code>"an"</code>, sensor type은 JSONArray로
      *         <code>"s"</code>라는 key에 담은 <code>JSONObject</code>
      */
-    public static Setting parse(String[] args) {
+    public static Setting load(String[] args) {
         Setting setting = new Setting();
         Options options = new Options();
         CommandLineParser parser = new DefaultParser();
@@ -77,6 +78,10 @@ public class SettingParser {
             if (setting.isNull(SENSOR_TYPE_OPTION)) {
                 setting.put(SENSOR_TYPE_OPTION, settingJSON.getJSONArray(SENSOR_TYPE_OPTION));
             }
+            if (settingJSON.isNull(FLOW)) {
+                throw new IllegalArgumentException();
+            }
+            setting.put(FLOW, settingJSON.getString(FLOW));
             return;
         }
         // 설정 파일이 없을 때 (기본값으로 설정)

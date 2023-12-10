@@ -14,7 +14,7 @@ import com.nhnacademy.aiot.port.Packet;
 public class FunctionNode extends InOutPutNode {
 
     private static final String FUNC = "func";
-    private static final String TOTAL_OUT_PORTS = "totalOutProts";
+    private static final String TOTAL_OUT_PORTS = "totalOutPorts";
 
     private final Function<Packet, List<Packet>> function;
 

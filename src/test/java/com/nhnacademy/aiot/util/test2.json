@@ -1,18 +1,8 @@
 {
-    "an" : "test",
-    "s" : ["temperature","pressure"],
-    "nodes" : [
-        {
-            "name" : "node1",
-            "type" : "mqttinnode",
-            "outputnodes" : {
-                "0" : "pipe1"
-            }
-        }
+    "an": "application/#",
+    "s": [
+        "temperature",
+        "pressure"
     ],
-    "pipes":[
-        {
-            "name" : "pipe1"
-        }
-    ]
+    "flow": "src/main/resources/flow.json"
 }
