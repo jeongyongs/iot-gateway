@@ -19,7 +19,7 @@ public class MQTTOutNode extends OutputNode {
     private static final String PORT = "port";
     private static final String WILL_TOPIC = "connect/will";
     private static final byte[] WILL_MESSAGE = "Disconnected".getBytes();
-    private static final int QOS = 1;
+    private static final int QOS = 0;
 
     /**
      * broker connect 및 option 설정
@@ -33,7 +33,7 @@ public class MQTTOutNode extends OutputNode {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
-            options.setWill(WILL_TOPIC, WILL_MESSAGE, QOS, true);
+            options.setWill(WILL_TOPIC, WILL_MESSAGE, QOS, false);
 
             client.connect(options);
         } catch (MqttException e) {
@@ -59,8 +59,8 @@ public class MQTTOutNode extends OutputNode {
             countSentPacket();
 
             // 연결 종료
-            client.disconnect();
-            log.info("MqttClient disconnect_publish");
+            // client.disconnect();
+            // log.info("MqttClient disconnect_publish");
         } catch (MqttException e) {
             countFailedPacket();
             e.printStackTrace();
