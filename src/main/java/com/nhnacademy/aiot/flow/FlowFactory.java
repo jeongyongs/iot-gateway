@@ -35,6 +35,12 @@ public class FlowFactory {
     private FlowFactory() {
     }
 
+    /**
+     * setting 파일의 요구사항대로 flow를 생성합니다.
+     * 
+     * @param setting
+     * @return setting 파일에 따라 만들어진 flow
+     */
     public static Flow getInstance(Setting setting) {
         Flow flow = new Flow();
         Map<String, Pipe> pipeMap = new HashMap<>();
@@ -60,6 +66,14 @@ public class FlowFactory {
         return flow;
     }
 
+    /**
+     * 각각의 노드에 맞는 NodeProperty를 만듭니다.
+     * 
+     * @param i       flow.json의 nodes 배열에 있는 node의 index
+     * @param nodes   flow.json의 nodes 배열
+     * @param setting flow.json이 담긴 setting 파일
+     * @return i번째 node의 NodeProperty
+     */
     private static NodeProperty setProperty(int i, JSONArray nodes, Setting setting) {
         JSONObject nodeObj = nodes.getJSONObject(i);
         NodeProperty nodeProperty = new NodeProperty(nodeObj.toString());
@@ -78,6 +92,14 @@ public class FlowFactory {
         return nodeProperty;
     }
 
+    /**
+     * nodeProperty를 받는 node를 만들어 flow에 추가합니다.
+     * 
+     * @param nodeProperty node를 생성할 때 입력할 nodeProperty
+     * @param flow         node를 추가할 flow
+     * @return 생성된 node
+     * @throws ReflectiveOperationException Reflection 오류 발생
+     */
     private static Node addNodetoFlow(NodeProperty nodeProperty, Flow flow) throws ReflectiveOperationException {
         Node node = (Node) Class
                 .forName(CLASS_NAME + nodeProperty.getString(CLASS))
@@ -87,11 +109,25 @@ public class FlowFactory {
         return node;
     }
 
+    /**
+     * 노드의 inPort에 pipe를 추가합니다.
+     * 
+     * @param node    pipe를 추가할 node
+     * @param pipeMap 추가할 pipe가 담긴 map
+     * @param nodeId  node의 id
+     * @throws ReflectiveOperationException Reflection 오류 발생
+     */
     private static void connectIn(Node node, Map<String, Pipe> pipeMap, String nodeId)
             throws ReflectiveOperationException {
         node.getClass().getMethod(CONNECT_IN_PORT, Pipe.class).invoke(node, pipeMap.get(nodeId));
     }
 
+    /**
+     * nodeProperty에 broker object를 넣습니다.
+     * 
+     * @param nodeProperty broker를 추가할 nodeProperty
+     * @param brokers      broker 정보가 담긴 JSON Object
+     */
     private static void putBroker(NodeProperty nodeProperty, JSONArray brokers) {
         String brokerId = nodeProperty.getString(BROKER);
         for (int j = 0; j < brokers.length(); j++) {
@@ -103,6 +139,14 @@ public class FlowFactory {
         }
     }
 
+    /**
+     * node의 outPort에 pipe를 연결합니다.
+     * 
+     * @param nodeProperty wire 정보가 담긴 nodeProperty
+     * @param node         pipe를 연결할 node
+     * @param pipeMap      pipe 정보를 담을 map
+     * @throws ReflectiveOperationException Reflection 오류 발생
+     */
     private static void connectOut(NodeProperty nodeProperty, Node node, Map<String, Pipe> pipeMap)
             throws ReflectiveOperationException {
         JSONArray ports = nodeProperty.getJSONArray(WIRES);

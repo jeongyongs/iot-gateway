@@ -12,11 +12,20 @@ public class Flow {
         nodes = new HashMap<>();
     }
 
+    /**
+     * flow에 node를 추가합니다.
+     * 
+     * @param nodeId 추가할 노드 아이디
+     * @param node   추가할 노드
+     */
     public void add(String nodeId, Node node) {
         nodes.put(nodeId, node);
     }
 
-    public void start(){
+    /**
+     * flow에 추가된 모든 노드를 시작합니다.
+     */
+    public void start() {
         nodes.values().forEach(Node::start);
     }
 }
